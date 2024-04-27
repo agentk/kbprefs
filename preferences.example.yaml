@@ -1,0 +1,105 @@
+host: {}
+sudo: {}
+user: {}
+watch:
+  ignoreApplications:
+  - au.*
+  - com.apple.Accessibility.Assets
+  - com.apple.AddressBook
+  - com.apple.AdLib
+  - com.apple.amsengagementd
+  - com.apple.AOSKit.RegInfo
+  - com.apple.appkit.xpc.openAndSavePanelService
+  - com.apple.appstored
+  - com.apple.assistant
+  - com.apple.AvatarUI.Staryu
+  - com.apple.calaccessd
+  - com.apple.chronod
+  - com.apple.cloud.quota
+  - com.apple.CloudKit
+  - com.apple.cloudpaird
+  - com.apple.CloudSubscriptionFeatures.cache
+  - com.apple.CloudSubscriptionFeatures.geoCache
+  - com.apple.configurationprofiles.user
+  - com.apple.contacts.donation-agent
+  - com.apple.dataaccess.babysitter
+  - com.apple.DataDeliveryServices
+  - com.apple.EscrowSecurityAlert
+  - com.apple.FamilyCircle
+  - com.apple.HIToolbox
+  - com.apple.Home.HomeWidget.Interactive
+  - com.apple.homed
+  - com.apple.homed.notbackedup
+  - com.apple.icloud.searchpartyuseragent
+  - com.apple.identityservicesd
+  - com.apple.ids.deviceproperties
+  - com.apple.IMCoreSpotlight
+  - com.apple.knowledge-agent
+  - com.apple.madrid
+  - com.apple.mail-shared
+  - com.apple.mediaanalysisd
+  - com.apple.messages.nicknames
+  - com.apple.messages.pinning
+  - com.apple.mlhost
+  - com.apple.mlruntimed
+  - com.apple.MobileSMS
+  - com.apple.MobileSMS.CKDNDList
+  - com.apple.mobiletimerd
+  - com.apple.ncprefs
+  - com.apple.networkserviceproxy
+  - com.apple.parsecd
+  - com.apple.photolibraryd
+  - com.apple.photos.shareddefaults
+  - com.apple.Preview.ViewState
+  - com.apple.rapport
+  - com.apple.remindd
+  - com.apple.remindd.babysitter
+  - com.apple.routined
+  - com.apple.Safari.SafeBrowsing
+  - com.apple.SafariBookmarksSyncAgent
+  - com.apple.SafariCloudHistoryPushAgent
+  - com.apple.security.sosaccount
+  - com.apple.settings.storage
+  - com.apple.sharingd
+  - com.apple.siri.media-indexer
+  - com.apple.siri.VoiceShortcuts
+  - com.apple.SiriCoreMetricsLighthousePluginV2
+  - com.apple.SiriExperimentMetricsWorker
+  - com.apple.SiriMetricsWorker
+  - com.apple.sociallayerd.CloudKit.ckwriter
+  - com.apple.spaces
+  - com.apple.SpeakSelection
+  - com.apple.spotlightknowledge
+  - com.apple.StatusKitAgent
+  - com.apple.systemsettings.extensions
+  - com.apple.TelephonyUtilities.sharePlayAppPolicies
+  - com.apple.textInput.keyboardServices.textReplacement
+  - com.apple.tipsd
+  - com.apple.translationd
+  - com.apple.universalaccessAuthWarning
+  - com.apple.voicetrigger
+  - com.apple.xpc.activity2
+  - com.hegenberg.BetterTouchTool
+  - com.logitech.*
+  - com.microsoft.*
+  - com.setapp.DesktopClient
+  - ContextStoreAgent
+  - diagnostics_agent
+  - familycircled
+  - LighthouseBitacoraFramework
+  - MobileMeAccounts
+  - systemgroup.com.apple.icloud.searchpartyd.sharedsettings
+  ignoreKeys:
+  - CKPerBootTasks
+  - CKStartupTime
+  - CloudKitAccountInfoCache
+  - com.apple.finder.SyncExtensions
+  - NSFullScreenMenuItemEverywhere
+  - NSNav(Last|Panel).*
+  - NSSplitView .*
+  - NSStatusItem .*
+  - NSToolbar Configuration .*
+  - NSTreatUnknownArgumentsAsOpen
+  - NSWindow Frame .*
+  - SU.*
+  - TALAppsToRelaunchAtLogin
