@@ -30,27 +30,20 @@ struct CommandWatch {
             ignoreApplications: storage.watch.ignoreApplications,
             ignoreKeys: storage.watch.ignoreKeys
         )
-        print(preferences)
 
         // Initialise each applications preferences cache
         var cache: [Scope: [String: [String: Value]]] = [
             // host
             .currentUserCurrentHost: preferences.read(scope: .currentUserCurrentHost),
+            // sudoHost
+            .anyUserCurrentHost: preferences.read(scope: .anyUserCurrentHost),
             // sudo
             .anyUserAnyHost: preferences.read(scope: .anyUserAnyHost),
             // user
             .currentUserAnyHost: preferences.read(scope: .currentUserAnyHost),
         ]
 
-        //// Watch the folders of all application preferences
-        print(preferences.allPreferenceRoots.map(\.path))
-        let watcher = FileWatcher(preferences.allPreferenceRoots.map(\.path))
-
-        watcher.callback = { event in
-            // If one of those folders reports a change
-            // Reread all prefs and print a list of changes
-            // Then write the changed prefs to the yaml file
-            print("Trigger: \(URL(filePath: event.path).deletingPathExtension().lastPathComponent)")
+        func dumpChanges() {
             var storageChanged = false
 
             for (scope, scopeValues) in cache {
@@ -58,28 +51,24 @@ struct CommandWatch {
                     let newPreferences = preferences.read(application: application, scope: scope)
                     for (key, value) in newPreferences {
                         guard value != keyValues[key] else { continue }
-                        print("[\(scope.name)][\(application)][\(key)] = \(value)")
+                        print("[\(scope.name)(.\(scope))][\(application)][\(key)] = \(value)")
                         cache[scope]?[application]?[key] = value
 
-                        if !storage[keyPath: scope.keyPath].keys.contains(application) {
-                            switch scope {
-                            case .currentUserCurrentHost, .anyUserCurrentHost:
-                                storage.host[application] = [key: value]
-                            case .currentUserAnyHost:
-                                storage.sudo[application] = [key: value]
-                            case .anyUserAnyHost:
-                                storage.user[application] = [key: value]
-                            }
-                        } else {
-                            switch scope {
-                            case .currentUserCurrentHost, .anyUserCurrentHost:
-                                storage.host[application]![key] = value
-                            case .currentUserAnyHost:
-                                storage.sudo[application]![key] = value
-                            case .anyUserAnyHost:
-                                storage.user[application]![key] = value
-                            }
+                        switch scope {
+                        case .currentUserCurrentHost:
+                            storage.host[application] = storage.host[application] ?? [:]
+                            storage.host[application]![key] = value
+                        case .anyUserCurrentHost:
+                            storage.sudoHost[application] = storage.sudoHost[application] ?? [:]
+                            storage.sudoHost[application]![key] = value
+                        case .currentUserAnyHost:
+                            storage.user[application] = storage.user[application] ?? [:]
+                            storage.user[application]![key] = value
+                        case .anyUserAnyHost:
+                            storage.sudo[application] = storage.sudo[application] ?? [:]
+                            storage.sudo[application]![key] = value
                         }
+
                         storageChanged = true
                     }
                 }
@@ -92,6 +81,22 @@ struct CommandWatch {
                 } catch {
                     print(error)
                 }
+            }
+        }
+
+        //// Watch the folders of all application preferences
+        let watcher = FileWatcher(preferences.allPreferenceRoots.map(\.path))
+        var nextSyncTime = Date.now + 1
+
+        watcher.callback = { event in
+            // If one of those folders reports a change
+            // Reread all prefs and print a list of changes
+            // Then write the changed prefs to the yaml file
+            print("Trigger: \(URL(filePath: event.path).deletingPathExtension().lastPathComponent)")
+            if Date.now > nextSyncTime {
+                print("Sync")
+                dumpChanges()
+                nextSyncTime = Date.now + 1
             }
         }
         

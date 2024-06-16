@@ -20,15 +20,23 @@ public enum Scope: CaseIterable {
 
     var user: CFString {
         switch self {
-        case .currentUserAnyHost, .currentUserCurrentHost: return kCFPreferencesCurrentUser
-        case .anyUserAnyHost, .anyUserCurrentHost: return kCFPreferencesAnyUser
+        case .currentUserAnyHost,
+             .currentUserCurrentHost:
+            return kCFPreferencesCurrentUser
+        case .anyUserAnyHost, 
+             .anyUserCurrentHost:
+            return kCFPreferencesAnyUser
         }
     }
 
     var host: CFString {
         switch self {
-        case .currentUserCurrentHost, .anyUserCurrentHost: return kCFPreferencesCurrentHost
-        case .currentUserAnyHost, .anyUserAnyHost: return kCFPreferencesAnyHost
+        case .currentUserCurrentHost,
+             .anyUserCurrentHost:
+            return kCFPreferencesCurrentHost
+        case .currentUserAnyHost, 
+             .anyUserAnyHost:
+            return kCFPreferencesAnyHost
         }
     }
 

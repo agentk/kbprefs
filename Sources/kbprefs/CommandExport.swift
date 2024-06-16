@@ -36,8 +36,9 @@ struct CommandExport {
 
         var storage = storage
         refresh(dictionary: &storage.host, scope: .currentUserCurrentHost)
-        refresh(dictionary: &storage.sudo, scope: .anyUserCurrentHost)
+        refresh(dictionary: &storage.sudoHost, scope: .anyUserCurrentHost)
         refresh(dictionary: &storage.user, scope: .currentUserAnyHost)
+        refresh(dictionary: &storage.sudo, scope: .anyUserAnyHost)
 
         let string = try encoder.encode(storage).inlineYamlValues()
         try Data(string.utf8).write(to: path)

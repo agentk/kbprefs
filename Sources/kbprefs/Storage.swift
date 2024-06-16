@@ -11,5 +11,6 @@ struct Storage: Codable {
     var user: PreferenceSequence = [:]
     var host: PreferenceSequence = [:]
     var sudo: PreferenceSequence = [:]
+    var sudoHost: PreferenceSequence = [:]
     var watch: Watch = Watch()
 }
