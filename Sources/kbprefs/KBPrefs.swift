@@ -3,7 +3,7 @@ import ArgumentParser
 import KBPreferences
 
 @main
-struct KBPrefs: @preconcurrency ParsableCommand {
+struct KBPrefs: ParsableCommand {
     enum KBCommand: String, ExpressibleByArgument {
         case `import`
         case export
@@ -26,7 +26,7 @@ struct KBPrefs: @preconcurrency ParsableCommand {
     @Option(name: .shortAndLong, help: "Path to yaml preference files.")
     var path = "~/.config/preferences/preferences.yaml"
 
-    @MainActor mutating func run() throws {
+    mutating func run() throws {
         let path = URL(filePath: (self.path as NSString).expandingTildeInPath).standardizedFileURL
 
         switch command {
@@ -37,7 +37,9 @@ struct KBPrefs: @preconcurrency ParsableCommand {
             try CommandExport(path: path).run()
 
         case .watch:
-            try CommandWatch(path: path).run()
+            Task {
+                try await CommandWatch(path: path).run()
+            }
         }
     }
 }
