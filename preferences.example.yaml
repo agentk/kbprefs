@@ -1,5 +1,6 @@
 host: {}
 sudo: {}
+sudoHost: {}
 user: {}
 watch:
   ignoreApplications:
